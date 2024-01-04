@@ -8,7 +8,7 @@ poss_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 def start():
     preset = input("Would you like to use a preset board [Y/N]? ")
     if preset == "Y" or preset == "y":
-        board = [
+        """board = [
             [9, "x", "x", "x", "x", 1, "x", "x", 4],
             ["x", 2, "x", "x", "x", 8, "x", "x", "x"],
             ["x", "x", "x", 2, "x", "x", 7, "x", 5],
@@ -19,8 +19,8 @@ def start():
             [2, "x", "x", 4, "x", "x", 8, "x", "x"],
             ["x", "x", 5, "x", 7, "x", "x", "x", "x"]
 ,
-        ]
-        """board = [
+        ]"""
+        board = [
                 ["x", 9, "x", 6, "x", "x", "x", "x", 2],
                 ["x", "x", 6, "x", "x", 2, "x", "x", 3],
                 [5, "x", 8, "x", "x", "x", "x", "x", "x"],
@@ -30,7 +30,7 @@ def start():
                 ["x", "x", "x", 8, 9, "x", 6, "x", "x"],
                 ["x", "x", 2, 1, "x", 5, "x", "x", "x"],
                 ["x", "x", "x", "x", 3, "x", 5, "x", 4]
-                ]"""
+                ]
     elif preset == "N" or preset == "n":
         print()
         # TODO - Write board input

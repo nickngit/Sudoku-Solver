@@ -1,44 +1,36 @@
 import copy
+import itertools
 
 poss_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
 
 # The starting function for the program, gets user input
 def start():
     preset = input("Would you like to use a preset board [Y/N]? ")
     if preset == "Y" or preset == "y":
-        # board = [["x", 7, "x", "x", 9, 2, "x", 1, "x"], [4, "x", "x", 8, "x", 5, "x", 6, 3],
-        #         [5, "x", 1, "x", "x", "x", "x", "x", 8], [8, 3, "x", 9, 4, "x", "x", "x", 7],
-        #         ["x", 9, "x", "x", "x", 3, 2, "x", "x"], [7, "x", 5, 1, 2, "x", 3, "x", "x"],
-        #         [9, "x", "x", 3, "x", "x", 6, 7, 2], [2, "x", 7, 4, "x", 9, "x", "x", "x"],
-        #         [6, "x", "x", "x", "x", 7, 5, 4, "x"]]
-        #board = [[3, 7, 8, "x", 9, 2, "x", 1, "x"], [4, 2, 9, 8, "x", 5, "x", 6, 3],
-        #         [5, "x", 1, "x", "x", "x", "x", "x", 8], [8, 3, "x", 9, 4, "x", "x", "x", 7],
-        #         ["x", 9, "x", "x", "x", 3, 2, "x", "x"], [7, "x", 5, 1, 2, "x", 3, "x", "x"],
-        #         [9, "x", "x", 3, "x", "x", 6, 7, 2], [2, "x", 7, 4, "x", 9, "x", "x", "x"],
-        #         [6, "x", "x", "x", "x", 7, 5, 4, "x"]]
-        #board = [["x","x","x","x","x","x","x","x", 2], ["x","x","x","x", 9, 5, 4, "x", "x"],
-        #         ["x", "x", 6, 8, "x", "x", "x", "x", "x"], ["x", 8, 5, "x", 2, "x", 9, 4, 1],
-        #         ["x", "x", "x", 1, "x", 9, 7, 3, 8], [1, "x", "x", "x", "x", "x", 2, 5, 6],
-        #         [8, 9, 3, "x", 1, "x", "x", "x", "x"], ["x", "x", "x", 9, "x", "x", "x", "x", 4],
-        #         ["x", "x", 7, 6, "x", "x", 3, "x", "x"]]
-        #board = [["x","x","x","x","x","x",5,"x","x"],
-        #         [1, 6, "x", 9, "x", "x", "x", "x", "x"],
-        #         ["x", "x", 9, "x", 6, 4, "x", "x", "x"],
-        #         ["x", "x", "x", "x", "x", "x", "x", "x", 4],
-        #         [4, "x", "x", "x", 2, "x", 1, "x", "x"],
-        #         ["x", "x", "x", 3, "x", "x", "x", 5, "x"],
-        #         ["x", "x", 2, "x", 8, 9, "x", "x", "x"],
-        #         ["x", "x", "x", 2, 5, "x", "x", 3, "x"],
-        #         [7, "x", "x", 1, "x", "x", "x", "x", 9]]
-        board = [[2,5,1,3,4,8,7,9,6],
-             ["x","x","x",9,1,7,2,"x","x"],
-             ["x","x",7,2,5,6,"x","x","x"],
-             ["x","x","x","x",6,"x",8,3,2],
-             ["x","x","x","x","x","x","x",7,"x"],
-             ["x","x",8,"x","x","x",9,"x","x"],
-             ["x","x","x",6,2,"x","x","x",8],
-             [8,"x","x",7,"x","x","x","x","x"],
-             ["x","x",2,5,"x",1,6,4,"x"]]
+        board = [
+            [9, "x", "x", "x", "x", 1, "x", "x", 4],
+            ["x", 2, "x", "x", "x", 8, "x", "x", "x"],
+            ["x", "x", "x", 2, "x", "x", 7, "x", 5],
+            [1, "x", 3, "x", "x", 6, 9, "x", "x"],
+            ["x", 5, "x", "x", 2, "x", "x", 3, "x"],
+            ["x", "x", "x", "x", "x", "x", "x", "x", "x"],
+            [6, "x", 1, "x", "x", "x", 4, "x", 9],
+            [2, "x", "x", 4, "x", "x", 8, "x", "x"],
+            ["x", "x", 5, "x", 7, "x", "x", "x", "x"]
+,
+        ]
+        """board = [
+                ["x", 9, "x", 6, "x", "x", "x", "x", 2],
+                ["x", "x", 6, "x", "x", 2, "x", "x", 3],
+                [5, "x", 8, "x", "x", "x", "x", "x", "x"],
+                [4, "x", "x", "x", "x", "x", "x", "x", "x"],
+                ["x", "x", 1, "x", 7, "x", "x", "x", "x"],
+                ["x", 6, "x", 3, "x", "x", "x", 8, "x"],
+                ["x", "x", "x", 8, 9, "x", 6, "x", "x"],
+                ["x", "x", 2, 1, "x", 5, "x", "x", "x"],
+                ["x", "x", "x", "x", 3, "x", 5, "x", 4]
+                ]"""
     elif preset == "N" or preset == "n":
         print()
         # TODO - Write board input
@@ -64,53 +56,30 @@ def print_board(b):
         else:
             print()
 
-# Returns the sub-square at index ss_num
-def get_sub_square(board_poss, ss_num):
-    row_ind = ss_num // 3 * 3
-    col_ind = ss_num % 3 * 3
-
-    ss = [l[col_ind:(col_ind + 3)] for l in board_poss[row_ind:(row_ind + 3)]]
-    return ss
 
 # Removes possibilities from the row, column, and sub-square of the input value
 def remove_possibilities(board_poss, row, col, value):
-    # Build the sub-squares of board_poss
-    poss_sub_squares = []
-    for poss_square in range(0, 9):
-        poss_sub_square = [[], [], []]
-        s_row = (poss_square // 3) * 3
-        s_col = (poss_square % 3) * 3
-
-        for r in range(0, 3):
-            for c in range(0, 3):
-                poss_sub_square[r].append(board_poss[s_row + r][s_col + c])
-        poss_sub_squares.append(poss_sub_square)
-
     # Remove the number as a possibility from the row
     for col_ind in range(len(board_poss[row])):
         if isinstance(board_poss[row][col_ind], list) and value in board_poss[row][col_ind]:
-            try:
+            # Make sure the empty cell doesn't just have one possibility in it and we don't remove the only possibility
+            if len(board_poss[row][col_ind]) > 1:
                 board_poss[row][col_ind].remove(value)
-            except ValueError:
-                pass
 
     # Remove the number as a possibility from the column
     col_nums = [r[col] for r in board_poss]
     for row_ind in range(len(col_nums)):
         if isinstance(board_poss[row_ind][col], list) and value in board_poss[row_ind][col]:
-            try:
+            if len(board_poss[row_ind][col]) > 1:
                 board_poss[row_ind][col].remove(value)
-            except ValueError:
-                pass
 
     # Remove the number as a possibility from the sub-square
     for row_ind in range(row // 3 * 3, row // 3 * 3 + 3):
         for col_ind in range(col // 3 * 3, col // 3 * 3 + 3):
             if isinstance(board_poss[row_ind][col_ind], list) and value in board_poss[row_ind][col_ind]:
-                try:
+                # Make sure the empty cell doesn't just have one possibility in it and we don't remove the only possibility
+                if len(board_poss[row_ind][col_ind]) > 1:
                     board_poss[row_ind][col_ind].remove(value)
-                except ValueError:
-                    pass
 
     return board_poss
 
@@ -128,38 +97,6 @@ def recursive_intersection(l1, l2, l3):
                 r.append(l1[row][col])
         intersection.append(r)
     return intersection
-
-
-# Merges 2 boards, also merging sublists in the board
-def merge_boards(b1, b2):
-    new_board = []
-
-    for row_ind in range(9):
-        row = []
-        for tile_ind in range(9):
-            tile1, tile2 = b1[row_ind][tile_ind], b2[row_ind][tile_ind]
-
-            # If both tiles are lists
-            if isinstance(tile1, list) and isinstance(tile2, list):
-                merged_tile = list(set(tile1 + tile2))
-
-            # If only the first tile is a list
-            elif isinstance(tile1, list):
-                merged_tile = tile1
-
-            # If only the second tile is a list
-            elif isinstance(tile2, list):
-                merged_tile = tile2
-
-            # If neither tile is a list
-            else:
-                merged_tile = tile1 if tile1 == tile2 else [tile1, tile2]
-
-            row.append(merged_tile)
-
-        new_board.append(row)
-
-    return new_board
 
 
 # Simplifies empty cells in which only one value is possible to that value
@@ -192,61 +129,16 @@ def count_subsection(ss, num, is_1d):
 
 # Checks board for naked singles. Takes a board and a board of possibilities as input and returns an updated board and board of possibilities
 def naked_singles(board, board_poss):
-    # Check rows
-    print("SOLVER: Checking rows for any naked singles...\n")
-    for row_num, row in enumerate(board):
-        if row.count("x") == 1:
-            x_col = row.index("x")  # Get missing number's column
-            num = [i for i in [1, 2, 3, 4, 5, 6, 7, 8, 9] if i not in row]  # Get missing number's value
-            if len(num) == 1:
-                print(
-                    f"SOLVER: Filled in row {row_num + 1} column {x_col + 1} with {num[0]} as {num[0]} was the only number left in row {row_num + 1}")
-                board[row_num][x_col] = num[0]
-
-                # Set x_col column of row_num row board to num[0] and remove it as a possibility from the row, column, and sub-square
-                board_poss[row_num][x_col] = num[0]
-                board_poss = remove_possibilities(board_poss, row_num, x_col, num[0])
-
-
-    # Check columns
-    print("SOLVER: Checking columns for any naked singles...\n")
-
-    for col_num in range(0, 9):
-        col = [i[col_num] for i in board]
-        if col.count("x") == 1:
-            x_row = col.index("x")  # Get missing number's row
-            num = [i for i in [1, 2, 3, 4, 5, 6, 7, 8, 9] if i not in col]  # Get missing number's value
-            if len(num) == 1:
-                print(
-                    f"SOLVER: Filled in row {x_row + 1} column {col_num + 1} with {num[0]} as {num[0]} was the only number left in column {col_num + 1}")
-                # Fill number in board
-                board[x_row][col_num] = num[0]
-
-                # Set col_num column of x_row row board_poss to num[0] and remove it as a possibility from the row, column, and sub-square
-                board_poss[x_row][col_num] = num[0]
-                board_poss = remove_possibilities(board_poss, x_row, col_num, num[0])
-
-    # Check sub-squares
-    for ss in range(9):
-        # Create sub-squares
-        sub_square = [[], [], []]
-        for r in range(3):
-            for c in range(3):
-                sub_square[r].append(board[(ss // 3) * 3 + r][(ss % 3) * 3 + c])
-
-        # If there's only 1 unfilled square in the sub-square, replace that square with the remaining number
-        if any(["x" in r for r in sub_square]) and all([s.count("x") <= 1 for s in sub_square]):
-            num = [i for i in [1, 2, 3, 4, 5, 6, 7, 8, 9] if all(i not in r for r in sub_square)]
-            num_ind = next((i, j) for i, lst in enumerate(sub_square) for j, x in enumerate(lst) if x == "x")
-            if len(num) == 1:
-                solved_row = (ss // 3) * 3 + num_ind[0]
-                solved_col = (ss % 3) * 3 + num_ind[1]
-                print(
-                    f"SOLVER: Filled in row {solved_row + 1} column {solved_col + 1} with {num[0]} as {num[0]} was the only number left in sub-square {ss + 1}")
-
-                # Set x_col column of row_num row board to num[0] and remove it as a possibility from the row, column, and sub-square
-                board_poss[solved_row][solved_col] = num[0]
-                board_poss = remove_possibilities(board_poss, solved_row, solved_col, num[0])
+    print("SOLVER: Searching board for naked singles...")
+    for r_num, row in enumerate(board_poss):
+        for c_num, cell in enumerate(row):
+            if isinstance(cell, list):
+                if len(cell) == 1:
+                    num = cell[0]
+                    board[r_num][c_num] = num
+                    board_poss[r_num][c_num] = num
+                    board_poss = remove_possibilities(board_poss, r_num, c_num, num)
+                    print(f"SOLVER: Naked single {str(num)} found in row {str(r_num + 1)} column {str(c_num + 1)} of board")
 
     return board, board_poss
 
@@ -340,83 +232,202 @@ def hidden_singles(board, board_poss):
     return board, board_poss
 
 
-# Performs the naked pairs strategy on rows and columns of the board. Takes a board of possibilities as input and returns the updated board of possibilities
-def naked_pairs(board_poss):
-    # Check for naked pairs in rows
-    print("\n\nSOLVER: Searching for naked pairs in rows...")
+# Checks for naked and hidden singles and continues checking for them while they can still be found
+def check_singles(board, board_poss):
+    print("SOLVER: Checking for naked singles and hidden singles...")
+    pre_board = copy.deepcopy(board)
+    post_board, post_board_poss = naked_singles(board, board_poss)
+    post_board, post_board_poss = hidden_singles(post_board, post_board_poss)
+    # If the board has changed after searching for naked and hidden singles, search for them again
+    while pre_board != post_board:
+        pre_board = copy.deepcopy(post_board)
+        pre_board_poss = copy.deepcopy(post_board_poss)
+        print("SOLVER: Board changed from finding naked/hidden singles, checking naked singles and hidden singles again...")
+        post_board, post_board_poss = naked_singles(pre_board, pre_board_poss)
+        post_board, post_board_poss = hidden_singles(post_board, post_board_poss)
+    return post_board, post_board_poss
 
-    # Iterate through rows
-    for row_ind, row_nums in enumerate(board_poss):
 
-        # Search for two 2 number lists in a row
-        for i in range(len(row_nums)):
-            if isinstance(row_nums[i], list) and len(row_nums[i]) == 2 and row_nums.count(row_nums[i]) == 2:
-                pair = row_nums[i]
-                for num in pair:
-                    for j in range(len(row_nums)):
-                        if isinstance(row_nums[j], list) and row_nums[j] != pair:
-                            try:
-                                row_nums[j].remove(num)
-                            except ValueError:
-                                pass
+# A function to find naked sets in rows, columns, and sub-squares, starting at size max_setsize and decrementing to size min_setsize. Returns an updated board_poss
+def find_naked_sets(board_poss, min_setsize, max_setsize):
+    # Define dictionary for matching numbers to names of sets of that size (for printing output)
+    set_name = {2: "pair", 3: "triple", 4: "quad", 5: "quintet", 6: "sextet", 7: "septet", 8: "octet"}
+
+    # Search for larger sets first
+    for set_size in range(max_setsize, (min_setsize - 1), -1):
+        # For rows
+        print(f"\n\nSOLVER: Searching rows for naked {set_name[set_size]}s...")
+        for r_num, row in enumerate(board_poss):
+            candidates = []
+            # Add possible candidates that can make up sets for row
+            for cell in row:
+                if isinstance(cell, list):
+                    if len(cell) <= set_size:
+                        for n in cell:
+                            if n not in candidates:
+                                candidates.append(n)
+
+            # Create possible sets using the possible candidates in the row
+            possible_sets = itertools.combinations(candidates, set_size)
+
+            # Iterate through the possible sets
+            for s in possible_sets:
+                cols = []
+                for col, cell in enumerate(row):
+                    # If the cell isn't already solved
+                    if isinstance(cell, list):
+                        # If all the candidates in the cell are all in the set
+                        if all(n in s for n in cell):
+                            cols.append(col)
+
+                # If there are as many cells with only the set candidates as the set size
+                if len(cols) == set_size:
+                    #set_cells = [ind for ind, cell in enumerate(row) if isinstance(cell, list) if all(n in s for n in cell)]
+                    cols_to_remove = []
+                    for col, cell in enumerate(row):
+                        if isinstance(cell, list):
+                            if any(n in cell for n in s) and col not in cols:
+                                cols_to_remove.append(col)
+                    if not cols_to_remove:
+                        # If the cells that make up the naked set are the only ones that contain the set's candidates in the row
+                        print(f"SOLVER: Naked {set_name[set_size]} {str(s)} found in columns {str({(c + 1) for c in cols})} of row {r_num + 1}, but since those are the only cells in the column with the {set_name[set_size]} candidates in the row, nothing was changed")
+                        continue
+                    else:
+                        # Else, remove the candidates that are from the set in the row
+                        print(f"SOLVER: Naked {set_name[set_size]} {str(s)} found in columns {str({(c + 1) for c in cols})} of row {r_num + 1}, removing those candidates from other cells in the row")
+
+                    # Remove the candidates of the set from other cells in the row
+                    for cell_col, cell in enumerate(board_poss[r_num]):
+                        if cell_col not in cols and isinstance(cell, list):
+                            for n in s:
+                                if n in cell:
+                                    board_poss[r_num][cell_col].remove(n)
+
+        # For columns
+        print(f"\nSOLVER: Searching columns for naked {set_name[set_size]}s...")
+        candidates = []
+        for c_num in range(9):
+            board_col = [r[c_num] for r in board_poss]
+            for cell in board_col:
+                if isinstance(cell, list):
+                    if len(cell) <= set_size:
+                        for n in cell:
+                            if n not in candidates:
+                                candidates.append(n)
+
+            # Create possible sets using the possible candidates in the column
+            possible_sets = itertools.combinations(candidates, set_size)
+
+            # Iterate through the possible sets
+            for s in possible_sets:
+                rows = []
+                for row, cell in enumerate(board_col):
+                    # If the cell isn't already solved
+                    if isinstance(cell, list):
+                        # If all the candidates in the cell are all in the set
+                        if all(n in s for n in cell):
+                            rows.append(row)
+                # If there are as many cells with only the set candidates as the set size
+                if len(rows) == set_size:
+                    #set_cells = [ind for ind, cell in enumerate(board_col) if isinstance(cell, list) if all(n in s for n in cell)]
+                    rows_to_remove = []
+                    for row, cell in enumerate(board_col):
+                        if isinstance(cell, list):
+                            if any(n in cell for n in s) and row not in rows:
+                                rows_to_remove.append(row)
+                    if not rows_to_remove:
+                        # If the cells that make up the naked set are the only ones that contain the set's candidates in the column
+                        print(f"SOLVER: Naked {set_name[set_size]} {str(s)} found in rows {str({(r + 1) for r in rows})} of column {c_num + 1}, but since those are the only cells in the column with the set candidates in the column, nothing was changed")
+                        continue
+                    else:
+                        # Else, remove the candidates that are from the set in the column
+                        print(f"SOLVER: Naked {set_name[set_size]} {str(s)} found in rows {str({(r + 1) for r in rows})} of column {c_num + 1}, removing those candidates from other cells in the column")
+                    # Remove the candidates of the set from other cells in the column
+                    for cell_row in range(9):
+                        if cell_row not in rows and isinstance(board_poss[cell_row][c_num], list):
+                            for n in s:
+                                if n in board_poss[cell_row][c_num]:
+                                    board_poss[cell_row][c_num].remove(n)
+
+
+
+
+        # For sub-squares
+        print(f"\nSOLVER: Searching sub-squares for naked {set_name[set_size]}s...")
+        # Iterate through each sub-square
+        for ss_index in range(9):
+            # Find the starting row and column indices of that sub-square
+            start_row = ss_index // 3 * 3
+            start_col = ss_index % 3 * 3
+            # Use those indices to select the sub-square and place it in variable sub_square
+            sub_square = [r[start_col:(start_col + 3)] for r in board_poss[start_row:(start_row + 3)]]
+            # Iterate through the cells in the sub-square and append the candidates of cells with numbers of candidates at most the set size to candidates list
+            candidates = []
+            for row in sub_square:
+                for cell in row:
+                    if isinstance(cell, list):
+                        if len(cell) <= set_size:
+                            for n in cell:
+                                if n not in candidates:
+                                    candidates.append(n)
+
+            # Create possible sets using the possible candidates in the column
+            possible_sets = itertools.combinations(candidates, set_size)
+
+            # Iterate through the possible sets
+            for s in possible_sets:
+                inds = []
+                for row_num, row in enumerate(sub_square):
+                    for col_num, cell in enumerate(row):
+                        # If the cell isn't already solved
+                        if isinstance(cell, list):
+                            # If all the candidates in the cell are all in the set
+                            if all(n in s for n in cell):
+                                inds.append(((row_num + start_row), (col_num + start_col)))
+
+                # If there are as many cells with only the set candidates as the set size
+                if len(inds) == set_size:
+                    #set_cells = [(r, c) for r, row_nums in enumerate(sub_square) for c, cell in enumerate(row_nums) if isinstance(cell, list) if all(n in s for n in cell)]
+                    inds_to_remove = []
+                    for row_num, row in enumerate(sub_square):
+                        for col_num, cell in enumerate(row):
+                            if isinstance(cell, list):
+                                ind_to_remove = (row_num, col_num)
+                                if any(n in cell for n in s) and ind_to_remove not in inds:
+                                    inds_to_remove.append(ind_to_remove)
+
+                    if not inds_to_remove:
+                        # If the cells that make up the naked set are the only ones that contain the set's candidates in the sub-square
+                        print(f"SOLVER: Naked {set_name[set_size]} {str(s)} found at", end="")
+                        for i, ind in enumerate(inds):
+                            if i == len(inds) - 2:
+                                print(" row " + str(ind[0] + 1) + " column " + str(ind[1] + 1), end=", and")
+                            elif i == len(inds) - 1:
+                                print(" row " + str(ind[0] + 1) + " column " + str(ind[1] + 1) + " of sub-square " + str(ss_index + 1), end=", but since those are the only cells in the sub-square with the set candidates in the sub-square, nothing was changed")
                             else:
-                                print(
-                                    f"SOLVER: As per the naked pairs strategy, reduced possibilities in row {row_ind + 1} by numbers {pair[0]} and {pair[1]} as there were already 2 cells with those 2 exact possibilities in the row")
-
-    # Check for naked pairs in columns
-    print("SOLVER: Searching for naked pairs in columns...")
-
-    # Get the columns of board_poss
-    board_poss_columns = [[row[i] for row in board_poss] for i in range(len(board_poss[0]))]
-
-    for col_ind, col_nums in enumerate(board_poss_columns):
-        # Search for two 2 number lists in a column
-        for i in range(len(col_nums)):
-            if isinstance(col_nums[i], list) and len(col_nums[i]) == 2 and col_nums.count(col_nums[i]) == 2:
-                pair = col_nums[i]
-                for num in pair:
-                    for j in range(len(col_nums)):
-                        if isinstance(col_nums[j], list) and col_nums[j] != pair:
-                            try:
-                                col_nums[j].remove(num)
-                            except ValueError:
-                                pass
+                                print(" row " + str(ind[0] + 1) + " column " + str(ind[1] + 1), end=",")
+                        continue
+                    else:
+                        # Else, remove the candidates that are from the set in the column
+                        print(f"SOLVER: Naked {set_name[set_size]} {str(s)} found at", end="")
+                        for i, ind in enumerate(inds):
+                            if i == len(inds) - 2:
+                                print(" row " + str(ind[0] + 1) + " column " + str(ind[1] + 1), end=", and")
+                            elif i == len(inds) - 1:
+                                print(" row " + str(ind[0] + 1) + " column " + str(ind[1] + 1) + " of sub-square " + str(ss_index + 1), end=", removing those candidates from other cells in the sub-square")
                             else:
-                                print(
-                                    f"SOLVER: As per the naked pairs strategy, reduced possibilities in column {col_ind + 1} by numbers {pair[0]} and {pair[1]} as there were already 2 cells with those 2 exact possibilities in the column")
+                                print(" row " + str(ind[0] + 1) + " column " + str(ind[1] + 1), end=",")
+                        # Remove the candidates of the set from other cells in the sub-square
+                        for cell_row in range(start_row, (start_row + 3)):
+                            for cell_col in range(start_col, (start_col + 3)):
+                                if (cell_row, cell_col) not in inds and isinstance(board_poss[cell_row][c_num], list):
+                                    for n in s:
+                                        if n in board_poss[cell_row][c_num]:
+                                            board_poss[cell_row][c_num].remove(n)
 
-    # Check for naked pairs in sub-squares
-    print("SOLVER: Searching for naked pairs in sub-squares...")
-
-    # Iterate through sub-squares
-    board_poss_subsquares = []
-    for square in range(0, 9):
-        sub_square = [[], [], []]
-        start_row = (square // 3) * 3
-        start_col = (square % 3) * 3
-
-        for r in range(0, 3):
-            for c in range(0, 3):
-                sub_square[r].append(board_poss[start_row + r][start_col + c])
-        board_poss_subsquares.append(sub_square)
-
-    for col_ind, col_nums in enumerate(board_poss_columns):
-
-        # Search for two 2 number lists in a column
-        for i in range(len(col_nums)):
-            if isinstance(col_nums[i], list) and len(col_nums[i]) == 2 and col_nums.count(col_nums[i]) == 2:
-                pair = col_nums[i]
-                for num in pair:
-                    for j in range(len(col_nums)):
-                        if isinstance(col_nums[j], list) and col_nums[j] != pair:
-                            try:
-                                col_nums[j].remove(num)
-                            except ValueError:
-                                pass
-                            else:
-                                print(f"SOLVER: As per the naked pairs strategy, reduced possibilities in column {col_ind + 1} by numbers {pair[0]} and {pair[1]} as there were already 2 cells with those 2 exact possibilities in the column")
 
     return board_poss
+
 
 # Checks board_poss for pointing pairs and triplets. Takes board_poss as input and returns the updated board_poss
 def pointing_pair_triplets(board_poss):
@@ -439,6 +450,7 @@ def pointing_pair_triplets(board_poss):
         for poss_num in poss_nums:
             # If there are 2 of the number in the sub-square
             if count_subsection(ss, poss_num, False) == 2:
+
                 # Get the indices of the 2 instances of the number in the sub-square
                 pair_ind = []
                 for r_num, r in enumerate(ss):
@@ -447,31 +459,26 @@ def pointing_pair_triplets(board_poss):
                             if poss_num in c:
                                 pair_ind.append((r_num, c_num))
 
-                # print("\n\n-----------" + str(pair_ind) + "----------------\n\n")
-                # print(str(ss)+"\n\n")
-                # print(str(poss_num)+"\n\n")
-
                 # If the numbers are in a row, remove every other instance of the number possibility in the row
                 if pair_ind[0][0] == pair_ind[1][0]:
-                    print(
-                        f"SOLVER: Pointing pair found in row of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from row {str(pair_ind[0][0] + 1)}")
+                    print(f"\nSOLVER: Pointing pair found in row of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from row {str(pair_ind[0][0] + 1)}")
                     for cell_ind, cell in enumerate(board_poss[pair_ind[0][0]]):
                         if isinstance(cell, list):
                             if poss_num in cell and cell_ind != pair_ind[0][1] and cell_ind != pair_ind[1][1]:
-                                board_poss[pair_ind[0][0]][cell_ind].remove(poss_num)
+                                if len(board_poss[pair_ind[0][0]][cell_ind]) > 1:
+                                    board_poss[pair_ind[0][0]][cell_ind].remove(poss_num)
 
                 # If the numbers are in a column, remove every other instance of the number possibility in the column
                 if pair_ind[0][1] == pair_ind[1][1]:
-                    print(
-                        f"SOLVER: Pointing pair found in column of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from column {str(pair_ind[0][1] + 1)}")
+                    print(f"\nSOLVER: Pointing pair found in column of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from column {str(pair_ind[0][1] + 1)}")
                     for cell_ind, cell in enumerate([r[pair_ind[0][1]] for r in board_poss]):
                         if isinstance(cell, list):
                             if poss_num in cell and cell_ind != pair_ind[0][0] and cell_ind != pair_ind[1][0]:
-                                board_poss[cell_ind][pair_ind[0][1]].remove(poss_num)
+                                if len(board_poss[cell_ind][pair_ind[0][1]]) > 1:
+                                    board_poss[cell_ind][pair_ind[0][1]].remove(poss_num)
 
             # If there are 3 of the number in the sub-square
             if count_subsection(ss, poss_num, False) == 3:
-                #yprint("SS:\n\n" + str(ss) + "\n\n" + "poss_num:\n\n" + str(poss_num) + "\n\n")
                 # Get the indices of the 3 instances of the number in the sub-square
                 triad_ind = []
                 for r_num, r in enumerate(ss):
@@ -482,7 +489,7 @@ def pointing_pair_triplets(board_poss):
 
                 # If the numbers are in a row, remove every other instance of the number possibility in the row
                 if triad_ind[0][0] == triad_ind[1][0] == triad_ind[2][0]:
-                    print(f"SOLVER: Pointing triplet found in row of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from row {str(triad_ind[0][0] + 1)}")
+                    print(f"\nSOLVER: Pointing triplet found in row of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from row {str(triad_ind[0][0] + 1)}")
                     for cell_ind, cell in enumerate(board_poss[triad_ind[0][0]]):
                         if isinstance(cell, list):
                             if poss_num in cell and cell_ind != triad_ind[0][1] and cell_ind != triad_ind[1][1] and cell_ind != triad_ind[2][1]:
@@ -490,14 +497,14 @@ def pointing_pair_triplets(board_poss):
 
                 # If the numbers are in a column, remove every other instance of the number possibility in the column
                 if triad_ind[0][1] == triad_ind[1][1] == triad_ind[2][1]:
-                    print(
-                        f"SOLVER: Pointing triplet found in column of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from row {str(triad_ind[0][1] + 1)}")
+                    print(f"\nSOLVER: Pointing triplet found in column of sub-square {str(ss_num)}, removing possibility of number {str(poss_num)} from row {str(triad_ind[0][1] + 1)}")
                     for cell_ind, cell in enumerate([r[triad_ind[0][1]] for r in board_poss]):
                         if isinstance(cell, list):
                             if poss_num in cell and cell_ind != triad_ind[0][0] and cell_ind != triad_ind[1][0] and cell_ind != triad_ind[2][0]:
                                 board_poss[cell_ind][triad_ind[0][1]].remove(poss_num)
 
     return board_poss
+
 
 # Performs the box-line reduction strategy on board_poss. Takes board_poss as input and returns the updated board_poss
 def box_line_reduction(board_poss):
@@ -588,11 +595,169 @@ def box_line_reduction(board_poss):
     return board_poss
 
 
+# A function to find hidden sets in rows, columns, and sub-squares, starting at size min_setsize and incrementing to size max_setsize. Returns an updated board_poss
+def find_hidden_sets(board_poss, min_setsize, max_setsize):
+    # Define dictionary for matching numbers to names of sets of that size (for printing output)
+    set_name = {2: "pair", 3: "triple", 4: "quad", 5: "quintet", 6: "sextet", 7: "septet", 8: "octet"}
+
+    # Search for smaller hidden sets first
+    for set_size in range(min_setsize, (max_setsize + 1)):
+
+        # For rows
+        print(f"\n\nSOLVER: Searching rows for hidden {set_name[set_size]}s...")
+        candidates = []
+
+        # Find possible candidates that can make up sets in row
+        for r_num, row in enumerate(board_poss):
+            for cell in row:
+                if isinstance(cell, list):
+                    for n in cell:
+                        if n not in candidates:
+                            candidates.append(n)
+
+            # Create possible sets based on candidates
+            possible_sets = itertools.combinations(candidates, set_size)
+
+            # Iterate through possible sets
+            for s in possible_sets:
+                occ = {}
+                # Add the indices where number n occurs in a row to list inds
+                for n in s:
+                    inds = []
+                    for c_num, cell in enumerate(row):
+                        if isinstance(cell, list):
+                            if n in cell:
+                                inds.append((r_num, c_num))
+                    # Map those indices to n in dictionary occ
+                    occ[n] = inds
+
+                """# Take the union of occ's values
+                inds_union = set()
+                for value in occ.values():
+                    for num in value:
+                        inds_union.add(num)
+
+                set_inds = list(inds_union)"""
+
+                set_inds = list(set.intersection(*[set(inds) for inds in list(occ.values())]))
+
+                # If the number of indices is the set size
+                if len(set_inds) == set_size and all([count_subsection(row, num, True) == set_size for num in s]):
+                    print(f"SOLVER: Hidden {set_name[set_size]} {str(s)} found in columns {str(list((i[1] + 1) for i in set_inds))} of row {str(r_num + 1)}, removing all numbers from the cell that aren't part of the {set_name[set_size]}\n\rinds: {str(set_inds)}")
+                    # Remove every number from the cells except for numbers in the set
+                    for ind in set_inds:
+                        for num in board_poss[ind[0]][ind[1]]:
+                            if num not in s:
+                                board_poss[ind[0]][ind[1]].remove(num)
+
+
+        # For columns
+        print(f"\n\nSOLVER: Searching columns for hidden {set_name[set_size]}s...")
+
+        for c_num in range(9):
+            board_col = [r[c_num] for r in board_poss]
+            candidates = []
+
+            # Find possible candidates that can make up sets in column
+            for cell in board_col:
+                if isinstance(cell, list):
+                    for n in cell:
+                        if n not in candidates:
+                            candidates.append(n)
+
+            # Create possible sets based on candidates
+            possible_sets = itertools.combinations(candidates, set_size)
+
+            # Iterate through possible sets
+            for s in possible_sets:
+                occ = {}
+                # Add the indices where number n occurs in a row to list inds
+                for n in s:
+                    inds = []
+                    for r_num, cell in enumerate(board_col):
+                        if isinstance(cell, list):
+                            if all(n in cell for n in s):
+                                inds.append((r_num, c_num))
+                occ[n] = inds
+
+                """"# Take the union of occ's values
+                inds_union = set()
+                for value in occ.values():
+                    for num in value:
+                        inds_union.add(num)
+
+                set_inds = list(inds_union)"""
+
+                set_inds = list(set.intersection(*[set(inds) for inds in list(occ.values())]))
+
+                # If the number of indices is the set size
+                if len(set_inds) == set_size and all([count_subsection(board_col, num, True) == set_size for num in s]):
+                    print(f"SOLVER: Hidden {set_name[set_size]} {str(s)} found in rows {str(list((t[0] + 1) for t in set_inds))} of column {str(c_num + 1)}, removing all numbers from the cell that aren't part of the {set_name[set_size]}")
+                    # Remove every number from the cells except for numbers in the set
+                    for ind in set_inds:
+                        for num in board_poss[ind[0]][ind[1]]:
+                            if num not in s:
+                                board_poss[ind[0]][ind[1]].remove(num)
+
+
+
+        # For sub-squares
+        print(f"\n\nSOLVER: Searching for hidden {set_name[set_size]} in sub-squares...")
+        for ss_index in range(9):
+            # Create sub-square
+            start_row = ss_index // 3 * 3
+            start_col = ss_index % 3 * 3
+            sub_square = [r[start_col:(start_col + 3)] for r in board_poss[start_row:(start_row + 3)]]
+
+            # Find possible candidates that can make up sets in sub-square
+            candidates = []
+            for row in sub_square:
+                for cell in row:
+                    if isinstance(cell, list):
+                        for n in cell:
+                            if n not in candidates:
+                                candidates.append(n)
+
+            # Create possible sets based on candidates
+            possible_sets = itertools.combinations(candidates, set_size)
+
+            # Iterate through possible sets
+            for s in possible_sets:
+                occ = {}
+                inds = []
+                for r_num, row in enumerate(sub_square):
+                    for c_num, cell in enumerate(row):
+                        if isinstance(cell, list):
+                            if all(n in cell for n in s):
+                                inds.append(((r_num + start_row), (c_num + start_col)))
+                occ[n] = inds
+
+                """# Take the union of occ's values
+                inds_union = set()
+                for value in occ.values():
+                    for num in value:
+                        inds_union.add(num)
+
+                set_inds = list(inds_union)"""
+
+                set_inds = list(set.intersection(*[set(inds) for inds in list(occ.values())]))
+
+                # If the number of indices is the set size
+                if len(set_inds) == set_size and all([count_subsection(sub_square, num, False) == set_size for num in s]):
+                    print(f"SOLVER: Hidden {set_name[set_size]} {str(s)} found at indices {str([(r + 1, c + 1) for r, c in set_inds])} in the sub-square {str(ss_index + 1)}, removing all numbers from the cells that aren't part of the {set_name[set_size]}")
+                    # Remove every number from the cells except for numbers in the set
+                    for ind in set_inds:
+                        for num in board_poss[ind[0]][ind[1]]:
+                            if num not in s:
+                                board_poss[ind[0]][ind[1]].remove(num)
+
+
+    return board_poss
+
+
 # Solves the sudoku board using a series of rules
 def solve_board(board):
-    poss_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-    # Inserting board sub squares into list
+    # Inserting board sub squares into 1D list
     sub_squares = []
     for square in range(0, 9):
         sub_square = [[], [], []]
@@ -642,22 +807,13 @@ def solve_board(board):
 
     # Create board of possibilities for each cell
     board_poss = recursive_intersection(board_poss_rows, board_poss_cols, board_poss_ss)
-    #print(str(board_poss))
 
-    #print("Board poss------------:\n")#+str(board_poss)+"\n\n"+str(board)) # For debugging
-    #print_board(board_poss)
+    print("CURRENT BOARD OF POSSIBILITIES:")
+    print_board(board_poss)
 
-    #print("\n\nBOARD POSS:\n\n")
-    #print_board(board_poss)
-    #print(str(board_poss))
-    #print("\n\n-------------------------------------------------------------------------------------------------")
+    # Rule 1 and 2 - check for naked singles then hidden singles until none can be found anymore
 
-    # Rule 1 - naked singles
-
-    board, board_poss = naked_singles(board, board_poss)
-
-    # After each rule is applied, check if the board is solved
-    print("\nSOLVER: Checking if board is solved...")
+    board, board_poss = check_singles(board, board_poss)
 
     if board_solved(board):
         print("SOLVER: Board is solved!")
@@ -667,54 +823,23 @@ def solve_board(board):
         print("Current board:\n")
         print_board(board)
 
-    # Rule 2 - hidden singles
+    print("CURRENT BOARD OF POSSIBILITIES:")
+    print_board(board_poss)
 
-    board, board_poss = hidden_singles(board, board_poss)
+    # Rule 3 - naked pairs/triplets
 
-    # After each rule is applied, check if the board is solved
-    print("SOLVER: Checking if board is solved...\n")
+    #board_poss = naked_pairs(board_poss)
+    board_poss = find_naked_sets(board_poss, 2, 3)
 
-    if board_solved(board):
-        print("SOLVER: Board is solved!")
-        return board
-    else:
-        print("SOLVER: Board is not solved, continuing...")
-        print("\nCurrent board:\n")
-        print_board(board)
+    print("CURRENT BOARD OF POSSIBILITIES:")
+    print_board(board_poss)
 
-    #print("\n\nBOARD_POSS:\n\n")
-    #print_board(board_poss)
+    # Check for naked singles and hidden singles
 
-    # Rule 3 - naked pairs
+    board, board_poss = check_singles(board, board_poss)
 
-    board_poss = naked_pairs(board_poss)
-
-    # Attempt to simplify board
-    print("SOLVER: Simplifying board as much as possible...")
-    board_poss = simplify_board(board_poss)
-
-    # Check if there are any lists in board_poss
-    has_lists = False
-    for r in board_poss:
-        for c in r:
-            if isinstance(c, list):
-                has_lists = True
-                break
-        if has_lists:
-            break
-
-    if not has_lists:
-        board = board_poss
-
-    print("SOLVER: Checking for naked singles and hidden singles again...")
-
-    # Check for naked singles again
-
-    board, board_poss = naked_singles(board, board_poss)
-
-    # Check for hidden singles again
-
-    board, board_poss = hidden_singles(board, board_poss)
+    print("CURRENT BOARD OF POSSIBILITIES:")
+    print_board(board_poss)
 
     # After each rule is applied, check if the board is solved
     print("SOLVER: Checking if board is solved...\n")
@@ -727,36 +852,35 @@ def solve_board(board):
         print("\nCurrent board:\n")
         print_board(board)
 
-    # Rule 4 - pointing pairs/triplets
+    # Rule 4 - hidden pairs/triplets
+
+    board_poss = find_hidden_sets(board_poss, 2, 3)
+
+    # Check for naked singles and hidden singles
+
+    board, board_poss = check_singles(board, board_poss)
+
+    print("CURRENT BOARD OF POSSIBILITIES:")
+    print_board(board_poss)
+
+    # After each rule is applied, check if the board is solved
+    print("SOLVER: Checking if board is solved...\n")
+
+    if board_solved(board):
+        print("SOLVER: Board is solved!")
+        return board
+    else:
+        print("SOLVER: Board is not solved, continuing...")
+        print("\nCurrent board:\n")
+        print_board(board)
+
+    # Rule 5 - pointing pairs/triplets
 
     board_poss = pointing_pair_triplets(board_poss)
 
-    # Attempt to simplify board
-    print("SOLVER: Simplifying board as much as possible...")
-    board_poss = simplify_board(board_poss)
+    # Check for naked and hidden singles again
 
-    # Check if there are any lists in board_poss
-    has_lists = False
-    for r in board_poss:
-        for c in r:
-            if isinstance(c, list):
-                has_lists = True
-                break
-        if has_lists:
-            break
-
-    if not has_lists:
-        board = board_poss
-
-    print("SOLVER: Checking for naked singles and hidden singles again...")
-
-    # Check for naked singles again
-
-    board, board_poss = naked_singles(board, board_poss)
-
-    # Check for hidden singles again
-
-    board, board_poss = hidden_singles(board, board_poss)
+    board, board_poss = check_singles(board, board_poss)
 
     # After each rule is applied, check if the board is solved
     print("SOLVER: Checking if board is solved...\n")
@@ -769,36 +893,13 @@ def solve_board(board):
         print("\nCurrent board:\n")
         print_board(board)
 
-    # Rule 5 - box-line reduction
+    # Rule 6 - box-line reduction
 
     board_poss = box_line_reduction(board_poss)
 
-    # Attempt to simplify board
-    print("SOLVER: Simplifying board as much as possible...")
-    board_poss = simplify_board(board_poss)
+    # Check for naked and hidden singles again
 
-    # Check if there are any lists in board_poss
-    has_lists = False
-    for r in board_poss:
-        for c in r:
-            if isinstance(c, list):
-                has_lists = True
-                break
-        if has_lists:
-            break
-
-    if not has_lists:
-        board = board_poss
-
-    print("SOLVER: Checking for naked singles and hidden singles again...")
-
-    # Check for naked singles again
-
-    board, board_poss = naked_singles(board, board_poss)
-
-    # Check for hidden singles again
-
-    board, board_poss = hidden_singles(board, board_poss)
+    board, board_poss = check_singles(board, board_poss)
 
     # After each rule is applied, check if the board is solved
     print("SOLVER: Checking if board is solved...\n")
@@ -810,10 +911,6 @@ def solve_board(board):
         print("SOLVER: Board is not solved, continuing...")
         print("\nCurrent board:\n")
         print_board(board)
-
-    # Rule 5 - naked triplets
-
-    # Rule 6 - hidden pairs/triplets
 
     # Rule 7 - x-wing
 
@@ -821,11 +918,9 @@ def solve_board(board):
 
     # Rule 9 - forced chains
 
-    # Rule 10 - backtracking
+    # Do rules 1 to 9 again before resorting to brute force
 
-    # Simplify board_poss in case there are any cells with only one possibility
-
-    board = simplify_board(board_poss)
+    # Rule 10 - backtracking brute force
 
     return board
 
